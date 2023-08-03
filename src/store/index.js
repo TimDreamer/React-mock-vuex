@@ -4,6 +4,22 @@ import { createContext, useContext, useReducer } from 'react'
 
 const storeContext = createContext(null)
 
+function dispatchWrapper(dispatch) {
+  return new Proxy(
+    {},
+    {
+      get(_, type) {
+        return function (payload) {
+          dispatch({
+            type,
+            payload,
+          })
+        }
+      },
+    }
+  )
+}
+
 function CreateStore() {
   const [pp, setPp] = useReducer(people.reducer, people.state)
   const [pd, setPd] = useReducer(products.reducer, products.state)
@@ -11,11 +27,11 @@ function CreateStore() {
   return {
     people: {
       state: pp,
-      dispatch: setPp,
+      dispatch: dispatchWrapper(setPp),
     },
     products: {
       state: pd,
-      dispatch: setPd,
+      dispatch: dispatchWrapper(setPd),
     },
   }
 }

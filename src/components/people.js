@@ -16,16 +16,17 @@ export default function People() {
       {state.every((p) => p.name !== 'Herman') && (
         <button
           onClick={() =>
-            dispatch({
-              type: ADD_NEW_PERSON,
-              payload: { name: 'Herman', job: 'none', habits: [] },
+            dispatch[ADD_NEW_PERSON]({
+              name: 'Herman',
+              job: 'none',
+              habits: [],
             })
           }
         >
           Add new person
         </button>
       )}
-      <button onClick={() => dispatch({ type: REVERSE })}>Reverse</button>
+      <button onClick={dispatch[REVERSE]}>Reverse</button>
     </>
   )
 }
